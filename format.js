@@ -10,7 +10,7 @@ self.addEventListener('message', function (e) {
         });
         self.window = self._window;
     }
-    self.importScripts('/de4js/highlight.min.js');
+    self.importScripts('https://vietbloggerdesign.github.io/de4js/highlight.min.js');
     source = self.hljs.highlight('javascript', source).value;
     source = source.split('\n');
     source = source.join('</code><code>');
