@@ -15,6 +15,32 @@
     };
   }
 
+  function createWorker(workerUrl) {
+    var worker = null;
+    try {
+      worker = new Worker(workerUrl);
+    } catch (e) {
+      try {
+        var blob;
+        try {
+          blob = new Blob(["importScripts('" + workerUrl + "');"], {
+            "type": 'application/javascript'
+          });
+        } catch (e1) {
+          var blobBuilder = new(window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder)();
+          blobBuilder.append("importScripts('" + workerUrl + "');");
+          blob = blobBuilder.getBlob('application/javascript');
+        }
+        var url = window.URL || window.webkitURL;
+        var blobUrl = url.createObjectURL(blob);
+        worker = new Worker(blobUrl);
+      } catch (e2) {
+        //if it still fails, there is nothing much we can do
+      }
+    }
+    return worker;
+  }
+
   function updateOnlineStatus() {
     if (navigator.onLine) {
       offlineBadge.classList.remove('show');
@@ -88,7 +114,7 @@
       if (source === '') return;
 
       if (!workerFormat) {
-        workerFormat = new Worker('/de4js/format.js');
+        workerFormat = createWorker('https://vietbloggerdesign.github.io/de4js/format.js');
         workerFormat.addEventListener('message', function(e) {
           view.innerHTML = e.data;
           externalPreview(e.data);
@@ -109,7 +135,7 @@
 
       if (/^[\s\n]*var\s_\d{4};[\s\n]*var\s_\d{4}\s?=/.test(source)) {
         type = '_numberencode';
-      } else if (source.indexOf("/｀ｍ´）ﾉ ~┻━┻   //*´∇｀*/ ['_'];") !== -1) { // eslint-disable-line quotes
+      } else if (source.indexOf("/&#65344;ｍ&#180;&#65289;ﾉ ~&#9531;&#9473;&#9531;   //*&#180;&#8711;&#65344;*/ ['_'];") !== -1) { // eslint-disable-line quotes
         type = 'aaencode';
       } else if (source.indexOf('$={___:++$,$$$$:(![]+"")[$]') !== -1) {
         type = 'jjencode';
@@ -145,7 +171,7 @@
       }
 
       if (!workerDecode) {
-        workerDecode = new Worker('/de4js/decode.js');
+        workerDecode = createWorker('https://vietbloggerdesign.github.io/de4js/decode.js');
         workerDecode.addEventListener('message', function(e) {
           output.value = e.data;
 
@@ -186,10 +212,12 @@
     e.trigger.classList.add('copied');
     e.clearSelection();
     timereset(e.trigger);
+    toastr["success"]("Text Copied To Clipboard !");
   });
   clipboard.on('error', function(e) {
     e.trigger.classList.add('selected');
     timereset(e.trigger);
+    toastr["warning"]("An Error occured while copying text to Clipboard !");
   });
 
   redecode.onclick = function() {
@@ -198,7 +226,7 @@
   };
 
   clear.onclick = function() {
-    view.textContent = 'Please choose a right encoding type!';
+    view.textContent = 'Please choose a right encoding type & wait for a vile after pasting code!';
     stopEffect();
     setTimeout(function() {
       auto.onchange();
