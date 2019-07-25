@@ -1,15 +1,4 @@
-/**
- * @name  de4js
- * @description  JavaScript Deobfuscator and Unpacker
- * @version  1.3.2
- * @license  MIT
- */
-
-/* globals ClipboardJS */
-
 (function () {
-
-    // https://davidwalsh.name/javascript-debounce-function
     function debounce(func, wait, immediate) {
         var timeout;
         return function () {
@@ -99,7 +88,7 @@
             if (source === '') return;
 
             if (!workerFormat) {
-                workerFormat = new Worker('/de4js/assets/js/worker/format.js');
+                workerFormat = new Worker('/de4js/format.js');
                 workerFormat.addEventListener('message', function (e) {
                     view.innerHTML = e.data;
                     externalPreview(e.data);
@@ -156,7 +145,7 @@
             }
 
             if (!workerDecode) {
-                workerDecode = new Worker('/de4js/assets/js/worker/decode.js');
+                workerDecode = new Worker('/de4js/decode.js');
                 workerDecode.addEventListener('message', function (e) {
                     output.value = e.data;
 
