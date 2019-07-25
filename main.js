@@ -88,7 +88,7 @@
       if (source === '') return;
 
       if (!workerFormat) {
-        workerFormat = new Worker('/de4js/format.js');
+        workerFormat = new Worker('https://vietbloggerdesign.github.io/de4js/format.js');
         workerFormat.addEventListener('message', function(e) {
           view.innerHTML = e.data;
           externalPreview(e.data);
@@ -145,7 +145,7 @@
       }
 
       if (!workerDecode) {
-        workerDecode = new Worker('/de4js/decode.js');
+        workerDecode = new Worker('https://vietbloggerdesign.github.io/de4js/decode.js');
         workerDecode.addEventListener('message', function(e) {
           output.value = e.data;
 
