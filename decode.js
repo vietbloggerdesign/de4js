@@ -109,7 +109,6 @@ self.addEventListener('message', function(e) {
   } else if (packer === 'javascriptobfuscator') {
     try {
       self.importScripts('https://vietbloggerdesign.github.io/de4js/javascriptobfuscator_unpacker.js');
-
       if (JavascriptObfuscator.detect(source)) source = JavascriptObfuscator.unpack(source);
     } catch (err) {
       console.log(err);
