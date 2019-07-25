@@ -2,7 +2,6 @@ var JavascriptObfuscator = {
   detect: function(str) {
     return /^var _0x[a-f0-9]+ ?\= ?\[/.test(str);
   },
-
   unpack: function(str) {
     if (JavascriptObfuscator.detect(str)) {
       var matches = /var (_0x[a-f\d]+) ?\= ?\[(.*?)\];/.exec(str);
@@ -18,7 +17,6 @@ var JavascriptObfuscator = {
     }
     return str;
   },
-
   _fix_quotes: function(str) {
     var matches = /^"(.*)"$/.exec(str);
     if (matches) {
@@ -27,7 +25,6 @@ var JavascriptObfuscator = {
     }
     return str;
   },
-
   _smart_split: function(str) {
     var strings = [];
     var pos = 0;
@@ -53,8 +50,6 @@ var JavascriptObfuscator = {
     }
     return strings;
   },
-
-
   _unescape: function(str) {
     // inefficient if used repeatedly or on small strings, but wonderful on single large chunk of text
     for (var i = 32; i < 128; i++) {
@@ -63,10 +58,8 @@ var JavascriptObfuscator = {
     str = str.replace(/\\x09/g, "\t");
     return str;
   },
-
   run_tests: function(sanity_test) {
     var t = sanity_test || new SanityTest();
-
     t.test_function(JavascriptObfuscator._smart_split, "JavascriptObfuscator._smart_split");
     t.expect('', []);
     t.expect('"a", "b"', ['"a"', '"b"']);
