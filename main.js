@@ -173,16 +173,14 @@
     }
     decode();
   };
-  clipboard.on('success', function(e) {
+  clipboard.on('success', function (e) {
     e.trigger.classList.add('copied');
     e.clearSelection();
     timereset(e.trigger);
-    toastr["success"]("Text Copied To Clipboard !");
   });
-  clipboard.on('error', function(e) {
+  clipboard.on('error', function (e) {
     e.trigger.classList.add('selected');
     timereset(e.trigger);
-    toastr["warning"]("An Error occured while copying text to Clipboard !");
   });
   redecode.onclick = function() {
     input.value = output.value;
