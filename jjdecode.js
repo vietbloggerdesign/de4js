@@ -31,24 +31,15 @@ var JJdecode = {
     var str_o = gv + "._$+";
     var str_t = gv + ".__+";
     var str_u = gv + "._+";
-
-    //0123456789abcdef
     var str_hex = gv + ".";
-
-    //s
     var str_s = '"';
     var gvsig = gv + ".";
-
     var str_quote = '\\\\\\"';
     var str_slash = '\\\\\\\\';
-
     var str_lower = "\\\\\"+";
     var str_upper = "\\\\\"+" + gv + "._+";
-
-    var str_end = '"+'; //end of s loop
-
+    var str_end = '"+';
     while (data != "") {
-      //l o t u
       if (0 == data.indexOf(str_l)) {
         data = data.substr(str_l.length);
         JJdecode.out("l");
@@ -66,12 +57,8 @@ var JJdecode = {
         JJdecode.out("u");
         continue;
       }
-
-      //0123456789abcdef
       if (0 == data.indexOf(str_hex)) {
         data = data.substr(str_hex.length);
-
-        //check every element of hex decode string for a match
         var i = 0;
         for (i = 0; i < b.length; i++) {
           if (0 == data.indexOf(b[i])) {
@@ -82,24 +69,15 @@ var JJdecode = {
         }
         continue;
       }
-
-      //start of s block
       if (0 == data.indexOf(str_s)) {
         data = data.substr(str_s.length);
-
-        //check if "R
-        if (0 == data.indexOf(str_upper)) // r4 n >= 128
-        {
-          data = data.substr(str_upper.length); //skip sig
-
+        if (0 == data.indexOf(str_upper)) {
+          data = data.substr(str_upper.length);
           var ch_str = "";
-          for (j = 0; j < 2; j++) //shouldn't be more than 2 hex chars
-          {
-            //gv + "."+b[ c ]
+          for (j = 0; j < 2; j++) {
             if (0 == data.indexOf(gvsig)) {
-              data = data.substr(gvsig.length); //skip gvsig
-              for (k = 0; k < b.length; k++) //for every entry in b
-              {
+              data = data.substr(gvsig.length);
+              for (k = 0; k < b.length; k++) {
                 if (0 == data.indexOf(b[k])) {
                   data = data.substr(b[k].length);
                   ch_str += k.toString(16) + "";
